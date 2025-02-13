@@ -81,11 +81,6 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        incidents.forEach(function(incident) {
-            L.marker([incident.lat, incident.lng]).addTo(map)
-                .bindPopup(`<b>${incident.title}</b><br><b>Type:</b> ${incident.type}<br><b>Date:</b> ${incident.date}`);
-        });
-
         // Show success message after form submission
         document.querySelector("form").addEventListener("submit", function() {
             document.getElementById("successMessage").style.display = "block";
