@@ -19,9 +19,15 @@
     ]
 }
 {
-    "postcode": "SW1A 0AA",
-    "title": "UK Parliament Bar",
-    "type": "Spiking",
-    "month": "January",
-    "year": "2024",
-    "description": "A test incident added using only a postcode."
+    "incidents": [
+        {
+            "postcode": "SW1A 0AA",
+            "title": "Spiking Incident",
+            "type": "Spiking",
+            "year": "2024",
+            "gender": "Female",
+            "description": "A reported spiking incident involving a woman at a nightclub."
+        },
+    ]
+}
+
