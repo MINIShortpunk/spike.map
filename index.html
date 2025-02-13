@@ -65,8 +65,7 @@
             </select>
         </label><br>
         <label>Date: <input type="date" name="date" required></label><br>
-        <label>Latitude: <input type="text" name="lat" required></label>
-        <label>Longitude: <input type="text" name="lng" required></label><br>
+        <label>Postcode: <input type="text" name="postcode" required></label><br>
 
         <button type="submit">Submit Report</button>
     </form>
@@ -80,6 +79,40 @@
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
+
+        // Function to get coordinates from postcode using OpenStreetMap Nominatim API
+        function getCoordinates(postcode, callback) {
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${postcode}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        callback(data[0].lat, data[0].lon); // Return latitude and longitude
+                    }
+                });
+        }
+
+        // Example incident with postcode
+        var incidents = [
+            {
+                "postcode": "SW1A 0AA",
+                "title": "Spiking Incident",
+                "type": "Spiking",
+                "year": "2024",
+                "description": "A reported spiking incident involving a woman at a nightclub."
+            }
+        ];
+
+        // Adding markers to map based on postcode
+        incidents.forEach(function(incident) {
+            getCoordinates(incident.postcode, function(lat, lng) {
+                var marker = L.marker([lat, lng]).addTo(map)
+                    .bindPopup(`<b>${incident.title}</b><br>
+                                <b>Type:</b> ${incident.type}<br>
+                                <b>Postcode:</b> ${incident.postcode}<br>
+                                <b>Year:</b> ${incident.year}<br>
+                                <p>${incident.description}</p>`);
+            });
+        });
 
         // Show success message after form submission
         document.querySelector("form").addEventListener("submit", function() {
