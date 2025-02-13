@@ -1,0 +1,20 @@
+{
+    "incidents": [
+        {
+            "lat": 51.505,
+            "lng": -0.09,
+            "title": "Crime 1",
+            "type": "Murder",
+            "year": "1888",
+            "description": "A historic case of murder in 1888."
+        },
+        {
+            "lat": 51.515,
+            "lng": -0.1,
+            "title": "Crime 2",
+            "type": "Robbery",
+            "year": "1905",
+            "description": "A notable robbery in 1905."
+        }
+    ]
+}
