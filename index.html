@@ -92,23 +92,27 @@
         }
 
         // 1. Replace these URLs with your actual GitHub image URLs
-        //    Example: 'https://github.com/YourUsername/YourRepo/raw/main/pink_icon.png'
         var pinkIcon = L.icon({
-            iconUrl: 'https://github.com/MINIShortpunk/spike.map/blob/eacc0324cb276f235834a2f3827a8dbd61d87b4a/Pinkpill.png', 
-            iconSize: [30, 30],
+            iconUrl: 'https://github.com/MINIShortpunk/spike.map/raw/main/Pinkpill.png', 
+            iconSize: [30, 30], // Default size
             iconAnchor: [15, 30],
             popupAnchor: [0, -30]
         });
 
         var blueIcon = L.icon({
-            iconUrl: 'https://github.com/MINIShortpunk/spike.map/blob/673ce60703a29fe092b50e0e932b5a4a8c1ae056/Bluepill.png', 
-            iconSize: [30, 30],
+            iconUrl: 'https://github.com/MINIShortpunk/spike.map/raw/main/Bluepill.png', 
+            iconSize: [30, 30], // Default size
             iconAnchor: [15, 30],
             popupAnchor: [0, -30]
         });
 
-        // 2. Example incident with postcode
-        //    (If you have more incidents, put them in an array or load from data.json)
+        // Function to get icon size based on the zoom level
+        function getIconSize(zoomLevel) {
+            const size = 30 + zoomLevel; // Increase size with zoom level (adjust this value)
+            return [size, size];
+        }
+
+        // Example incident with postcode
         var incidents = [
             {
                 "postcode": "SW1A 0AA",
@@ -120,15 +124,20 @@
             }
         ];
 
-        // 3. Adding markers to map based on postcode
+        // Adding markers to map based on postcode
         incidents.forEach(function(incident) {
             getCoordinates(incident.postcode, function(lat, lng) {
-                // Choose icon based on gender or other conditions
                 var icon = incident.gender === "Female" ? pinkIcon : blueIcon;
 
-                // Create the marker
-                L.marker([lat, lng], { icon: icon })
-                 .addTo(map)
+                // Create the marker with dynamic icon size based on zoom level
+                L.marker([lat, lng], {
+                    icon: L.icon({
+                        iconUrl: icon.options.iconUrl,
+                        iconSize: getIconSize(map.getZoom()), // Dynamic size based on zoom level
+                        iconAnchor: icon.options.iconAnchor,
+                        popupAnchor: icon.options.popupAnchor
+                    })
+                }).addTo(map)
                  .bindPopup(`<b>${incident.title}</b><br>
                              <b>Type:</b> ${incident.type}<br>
                              <b>Postcode:</b> ${incident.postcode}<br>
