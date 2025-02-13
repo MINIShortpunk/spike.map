@@ -1,141 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Incident Map</title>
-    
-    <!-- Leaflet CSS & JS for Map -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<h2>Report an Incident</h2>
+<form action="https://formsubmit.co/spikemap.helpers@gmail.com" method="POST">
+    <input type="hidden" name="_subject" value="New Incident Report">
+    <input type="hidden" name="_captcha" value="false">
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f9f9f9;
-        }
-        h1, h2 {
-            color: #333;
-        }
-        #map {
-            height: 500px;
-            width: 100%;
-            margin-bottom: 20px;
-        }
-        form {
-            background: white;
-            padding: 10px;
-            border-radius: 5px;
-            display: inline-block;
-            text-align: left;
-        }
-        button {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-    </style>
-</head>
-<body>
-
-    <h1>Incident Map</h1>
-
-    <!-- Map Display -->
-    <div id="map"></div>
-
-    <!-- Incident Filter -->
-    <label>Filter by Type:
-        <select id="filter">
-            <option value="all">All</option>
-            <option value="Spiking">Spiking</option>
-            <option value="Assault">Assault</option>
-            <option value="Robbery">Robbery</option>
+    <label>Title: <input type="text" name="title" required></label><br>
+    <label>Type: 
+        <select name="type">
+            <option>Spiking</option>
+            <option>Assault</option>
+            <option>Robbery</option>
         </select>
-    </label>
+    </label><br>
+    <label>Date: <input type="date" name="date" required></label><br>
+    <label>Latitude: <input type="text" name="lat" required></label>
+    <label>Longitude: <input type="text" name="lng" required></label><br>
 
-    <h2>Report an Incident</h2>
-    <form id="incidentForm">
-        <label>Title: <input type="text" id="title" required></label><br>
-        <label>Type: 
-            <select id="type">
-                <option>Spiking</option>
-                <option>Assault</option>
-                <option>Robbery</option>
-            </select>
-        </label><br>
-        <label>Date: <input type="date" id="date" required></label><br>
-        <label>Latitude: <input type="text" id="lat" required></label>
-        <label>Longitude: <input type="text" id="lng" required></label><br>
-        <button type="submit">Add Incident</button>
-    </form>
+    <button type="submit">Submit Report</button>
+</form>
+<p id="successMessage" style="display:none; color: green;">Your report has been submitted!</p>
 
-    <script>
-        var map = L.map('map').setView([51.505, -0.09], 13); // Center map
-
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '© OpenStreetMap contributors'
-        }).addTo(map);
-
-        // Incident data
-        var incidents = [
-            { lat: 51.505, lng: -0.09, title: "Incident 1", type: "Spiking", date: "2024-02-10" },
-            { lat: 51.515, lng: -0.1, title: "Incident 2", type: "Assault", date: "2024-02-12" },
-            { lat: 51.525, lng: -0.08, title: "Incident 3", type: "Robbery", date: "2024-02-11" }
-        ];
-
-        var markers = [];
-
-        function updateMap(filterType) {
-            // Remove existing markers
-            markers.forEach(marker => map.removeLayer(marker));
-            markers = [];
-
-            // Add filtered markers
-            incidents.forEach(function(incident) {
-                if (filterType === "all" || incident.type === filterType) {
-                    var marker = L.marker([incident.lat, incident.lng]).addTo(map)
-                        .bindPopup(`<b>${incident.title}</b><br><b>Type:</b> ${incident.type}<br><b>Date:</b> ${incident.date}`);
-                    markers.push(marker);
-                }
-            });
-        }
-
-        document.getElementById('filter').addEventListener('change', function() {
-            updateMap(this.value);
-        });
-
-        updateMap("all"); // Show all incidents by default
-
-        // Add New Incident
-        document.getElementById('incidentForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            var title = document.getElementById('title').value;
-            var type = document.getElementById('type').value;
-            var date = document.getElementById('date').value;
-            var lat = parseFloat(document.getElementById('lat').value);
-            var lng = parseFloat(document.getElementById('lng').value);
-
-            if (!isNaN(lat) && !isNaN(lng)) {
-                var newIncident = { lat: lat, lng: lng, title: title, type: type, date: date };
-                incidents.push(newIncident);
-                
-                var newMarker = L.marker([lat, lng]).addTo(map)
-                    .bindPopup(`<b>${title}</b><br><b>Type:</b> ${type}<br><b>Date:</b> ${date}`);
-                
-                markers.push(newMarker);
-                document.getElementById('incidentForm').reset();
-            } else {
-                alert("Please enter valid coordinates.");
-            }
-        });
-    </script>
-
-</body>
-</html>
+<script>
+    document.querySelector("form").addEventListener("submit", function() {
+        document.getElementById("successMessage").style.display = "block";
+    });
+</script>
