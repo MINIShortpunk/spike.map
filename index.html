@@ -29,6 +29,8 @@
             border-radius: 5px;
             display: inline-block;
             text-align: left;
+            width: 300px;
+            margin: auto;
         }
         button {
             background: #007bff;
@@ -72,7 +74,7 @@
     <p id="successMessage" style="display:none; color: green;">Your report has been submitted!</p>
 
     <script>
-        // Initialize map
+        // Initialize the map
         var map = L.map('map').setView([51.505, -0.09], 13); // Center on London example
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
