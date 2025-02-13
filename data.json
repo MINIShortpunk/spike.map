@@ -18,3 +18,10 @@
         }
     ]
 }
+{
+    "postcode": "SW1A 0AA",
+    "title": "UK Parliament Bar",
+    "type": "Spiking",
+    "month": "January",
+    "year": "2024",
+    "description": "A test incident added using only a postcode."
