@@ -1,26 +1,101 @@
-<h2>Report an Incident</h2>
-<form action="https://formsubmit.co/spikemap.helpers@gmail.com" method="POST">
-    <input type="hidden" name="_subject" value="New Incident Report">
-    <input type="hidden" name="_captcha" value="false">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Map</title>
 
-    <label>Title: <input type="text" name="title" required></label><br>
-    <label>Type: 
-        <select name="type">
-            <option>Spiking</option>
-            <option>Assault</option>
-            <option>Robbery</option>
-        </select>
-    </label><br>
-    <label>Date: <input type="date" name="date" required></label><br>
-    <label>Latitude: <input type="text" name="lat" required></label>
-    <label>Longitude: <input type="text" name="lng" required></label><br>
+    <!-- Leaflet Map CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
-    <button type="submit">Submit Report</button>
-</form>
-<p id="successMessage" style="display:none; color: green;">Your report has been submitted!</p>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        #map {
+            height: 500px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        form {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            display: inline-block;
+            text-align: left;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
 
-<script>
-    document.querySelector("form").addEventListener("submit", function() {
-        document.getElementById("successMessage").style.display = "block";
-    });
-</script>
+    <h1>Incident Map</h1>
+
+    <!-- Map Display -->
+    <div id="map"></div>
+
+    <h2>Report an Incident</h2>
+    <form action="https://formsubmit.co/spikemap.helpers@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New Incident Report">
+        <input type="hidden" name="_captcha" value="false">
+
+        <label>Title: <input type="text" name="title" required></label><br>
+        <label>Type: 
+            <select name="type">
+                <option>Spiking</option>
+                <option>Assault</option>
+                <option>Robbery</option>
+            </select>
+        </label><br>
+        <label>Date: <input type="date" name="date" required></label><br>
+        <label>Latitude: <input type="text" name="lat" required></label>
+        <label>Longitude: <input type="text" name="lng" required></label><br>
+
+        <button type="submit">Submit Report</button>
+    </form>
+
+    <p id="successMessage" style="display:none; color: green;">Your report has been submitted!</p>
+
+    <script>
+        // Initialize map
+        var map = L.map('map').setView([51.505, -0.09], 13); // Center on London example
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add example markers
+        var incidents = [
+            { lat: 51.505, lng: -0.09, title: "Incident 1", type: "Spiking", date: "2024-02-10" },
+            { lat: 51.515, lng: -0.1, title: "Incident 2", type: "Assault", date: "2024-02-12" },
+            { lat: 51.525, lng: -0.08, title: "Incident 3", type: "Robbery", date: "2024-02-11" }
+        ];
+
+        incidents.forEach(function(incident) {
+            L.marker([incident.lat, incident.lng]).addTo(map)
+                .bindPopup(`<b>${incident.title}</b><br><b>Type:</b> ${incident.type}<br><b>Date:</b> ${incident.date}`);
+        });
+
+        // Show success message after form submission
+        document.querySelector("form").addEventListener("submit", function() {
+            document.getElementById("successMessage").style.display = "block";
+        });
+    </script>
+
+</body>
+</html>
