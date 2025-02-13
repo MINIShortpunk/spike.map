@@ -91,22 +91,24 @@
                 });
         }
 
-        // Define gender-based icons
+        // 1. Replace these URLs with your actual GitHub image URLs
+        //    Example: 'https://github.com/YourUsername/YourRepo/raw/main/pink_icon.png'
         var pinkIcon = L.icon({
-            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/60/Pink_icon.svg', // Example pink icon URL
+            iconUrl: 'https://github.com/MINIShortpunk/spike.map/blob/main/Pinkpill.webp', 
             iconSize: [30, 30],
             iconAnchor: [15, 30],
             popupAnchor: [0, -30]
         });
 
         var blueIcon = L.icon({
-            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Blue_icon.svg', // Example blue icon URL
+            iconUrl: 'https://github.com/MINIShortpunk/spike.map/blob/main/Bluepill.webp', 
             iconSize: [30, 30],
             iconAnchor: [15, 30],
             popupAnchor: [0, -30]
         });
 
-        // Example incident with postcode
+        // 2. Example incident with postcode
+        //    (If you have more incidents, put them in an array or load from data.json)
         var incidents = [
             {
                 "postcode": "SW1A 0AA",
@@ -118,17 +120,20 @@
             }
         ];
 
-        // Adding markers to map based on postcode
+        // 3. Adding markers to map based on postcode
         incidents.forEach(function(incident) {
             getCoordinates(incident.postcode, function(lat, lng) {
+                // Choose icon based on gender or other conditions
                 var icon = incident.gender === "Female" ? pinkIcon : blueIcon;
 
-                var marker = L.marker([lat, lng], { icon: icon }).addTo(map)
-                    .bindPopup(`<b>${incident.title}</b><br>
-                                <b>Type:</b> ${incident.type}<br>
-                                <b>Postcode:</b> ${incident.postcode}<br>
-                                <b>Year:</b> ${incident.year}<br>
-                                <p>${incident.description}</p>`);
+                // Create the marker
+                L.marker([lat, lng], { icon: icon })
+                 .addTo(map)
+                 .bindPopup(`<b>${incident.title}</b><br>
+                             <b>Type:</b> ${incident.type}<br>
+                             <b>Postcode:</b> ${incident.postcode}<br>
+                             <b>Year:</b> ${incident.year}<br>
+                             <p>${incident.description}</p>`);
             });
         });
 
