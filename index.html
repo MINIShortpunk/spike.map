@@ -91,6 +91,21 @@
                 });
         }
 
+        // Define gender-based icons
+        var pinkIcon = L.icon({
+            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/60/Pink_icon.svg', // Example pink icon URL
+            iconSize: [30, 30],
+            iconAnchor: [15, 30],
+            popupAnchor: [0, -30]
+        });
+
+        var blueIcon = L.icon({
+            iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/a/a0/Blue_icon.svg', // Example blue icon URL
+            iconSize: [30, 30],
+            iconAnchor: [15, 30],
+            popupAnchor: [0, -30]
+        });
+
         // Example incident with postcode
         var incidents = [
             {
@@ -98,14 +113,17 @@
                 "title": "Spiking Incident",
                 "type": "Spiking",
                 "year": "2024",
-                "description": "A reported spiking incident involving a woman at a nightclub."
+                "description": "A reported spiking incident involving a woman at a nightclub.",
+                "gender": "Female"
             }
         ];
 
         // Adding markers to map based on postcode
         incidents.forEach(function(incident) {
             getCoordinates(incident.postcode, function(lat, lng) {
-                var marker = L.marker([lat, lng]).addTo(map)
+                var icon = incident.gender === "Female" ? pinkIcon : blueIcon;
+
+                var marker = L.marker([lat, lng], { icon: icon }).addTo(map)
                     .bindPopup(`<b>${incident.title}</b><br>
                                 <b>Type:</b> ${incident.type}<br>
                                 <b>Postcode:</b> ${incident.postcode}<br>
