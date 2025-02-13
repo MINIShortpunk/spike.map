@@ -81,13 +81,6 @@
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
 
-        // Add example markers
-        var incidents = [
-            { lat: 51.505, lng: -0.09, title: "Incident 1", type: "Spiking", date: "2024-02-10" },
-            { lat: 51.515, lng: -0.1, title: "Incident 2", type: "Assault", date: "2024-02-12" },
-            { lat: 51.525, lng: -0.08, title: "Incident 3", type: "Robbery", date: "2024-02-11" }
-        ];
-
         incidents.forEach(function(incident) {
             L.marker([incident.lat, incident.lng]).addTo(map)
                 .bindPopup(`<b>${incident.title}</b><br><b>Type:</b> ${incident.type}<br><b>Date:</b> ${incident.date}`);
